@@ -9,8 +9,8 @@ class CareerProgressCard extends StatelessWidget {
 
   const CareerProgressCard({
     super.key,
-    this.overallPercentage = 72,
-    this.resumePercentage = 90,
+    this.overallPercentage = 84,
+    this.resumePercentage = 100,
     this.skillsPercentage = 65,
     this.profilePercentage = 80,
     this.mentorStatus = 'Session Scheduled',
@@ -18,267 +18,192 @@ class CareerProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFF0F172A),
-            Color(0xFF1E1B4B),
-            Color(0xFF312E81),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFE7E5E4), width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6366F1).withValues(alpha: 0.25),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
-      child: Stack(
+      child: Column(
         children: [
-          // Background Decorative Glowing Spheres
-          Positioned(
-            right: -20,
-            top: -20,
-            child: Container(
-              width: 130,
-              height: 130,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color(0xFF6366F1).withValues(alpha: 0.15),
-              ),
-            ),
-          ),
-          Positioned(
-            left: -30,
-            bottom: -30,
-            child: Container(
-              width: 140,
-              height: 140,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color(0xFF0D9488).withValues(alpha: 0.15),
-              ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(22),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Row(
+            children: [
+              // Circular Gauge Meter
+              SizedBox(
+                width: 82,
+                height: 82,
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
+                    SizedBox(
+                      width: 80,
+                      height: 80,
+                      child: CircularProgressIndicator(
+                        value: overallPercentage / 100,
+                        strokeWidth: 8,
+                        backgroundColor: const Color(0xFFF1F5F9),
+                        valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF18181B)),
+                      ),
+                    ),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.12),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.white24),
-                              ),
-                              child: const Row(
-                                children: [
-                                  Icon(Icons.auto_awesome, color: Color(0xFFF59E0B), size: 13),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Career Readiness Score',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            Text(
-                              '$overallPercentage%',
-                              style: theme.textTheme.displayLarge?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 42,
-                                letterSpacing: -1,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF10B981).withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.4)),
-                              ),
-                              child: const Text(
-                                '+4% this week',
-                                style: TextStyle(
-                                  color: Color(0xFF34D399),
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
+                        Text(
+                          '$overallPercentage%',
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1C1917),
+                            letterSpacing: -0.5,
+                          ),
                         ),
                       ],
                     ),
-                    // Animated-style Ring Meter
-                    Container(
-                      width: 76,
-                      height: 76,
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: 0.08),
-                      ),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          SizedBox(
-                            width: 68,
-                            height: 68,
-                            child: CircularProgressIndicator(
-                              value: overallPercentage / 100,
-                              strokeWidth: 8,
-                              backgroundColor: Colors.white12,
-                              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF6366F1)),
-                            ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 18),
+
+              // Title and Growth Badge
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Career Readiness Score',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1C1917),
                           ),
-                          const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.rocket_launch,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                            ],
+                        ),
+                        const Icon(Icons.chevron_right, color: Color(0xFF78716C), size: 20),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFECFDF5),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.trending_up, color: Color(0xFF059669), size: 14),
+                          SizedBox(width: 4),
+                          Text(
+                            '+4% this week',
+                            style: TextStyle(
+                              color: Color(0xFF059669),
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 22),
-                const Divider(color: Colors.white12, height: 1),
-                const SizedBox(height: 18),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          const Divider(height: 1, color: Color(0xFFF5F5F4)),
+          const SizedBox(height: 16),
 
-                // Metrics Breakdown Grid
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildMetricItem(
-                        context,
-                        label: 'Resume',
-                        value: '$resumePercentage%',
-                        progress: resumePercentage / 100,
-                        color: const Color(0xFF60A5FA),
-                        icon: Icons.description_outlined,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildMetricItem(
-                        context,
-                        label: 'Skills',
-                        value: '$skillsPercentage%',
-                        progress: skillsPercentage / 100,
-                        color: const Color(0xFF34D399),
-                        icon: Icons.quiz_outlined,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildMetricItem(
-                        context,
-                        label: 'Profile',
-                        value: '$profilePercentage%',
-                        progress: profilePercentage / 100,
-                        color: const Color(0xFFFBBF24),
-                        icon: Icons.person_outline,
-                      ),
-                    ),
-                  ],
+          // 3 Metric Breakdown Items
+          Row(
+            children: [
+              Expanded(
+                child: _buildMetricBox(
+                  icon: Icons.description_outlined,
+                  label: 'Resume',
+                  value: '$resumePercentage%',
+                  color: const Color(0xFFD97706),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _buildMetricBox(
+                  icon: Icons.bolt_outlined,
+                  label: 'Skills',
+                  value: '$skillsPercentage%',
+                  color: const Color(0xFFD97706),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _buildMetricBox(
+                  icon: Icons.person_outline,
+                  label: 'Profile',
+                  value: '$profilePercentage%',
+                  color: const Color(0xFFD97706),
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMetricItem(
-    BuildContext context, {
+  Widget _buildMetricBox({
+    required IconData icon,
     required String label,
     required String value,
-    required double progress,
     required Color color,
-    required IconData icon,
   }) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+        color: const Color(0xFFFAFAF9),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFF5F5F4)),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(icon, color: Colors.white70, size: 13),
-                  const SizedBox(width: 4),
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                value,
-                style: TextStyle(
-                  color: color,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFEF3C7),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, size: 15, color: const Color(0xFFD97706)),
           ),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 5,
-              backgroundColor: Colors.white12,
-              valueColor: AlwaysStoppedAnimation<Color>(color),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: Color(0xFF78716C),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1C1917),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

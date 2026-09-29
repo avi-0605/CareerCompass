@@ -28,99 +28,81 @@ class HomeScreen extends StatelessWidget {
     final resumeCompletion = resumeProvider.completionPercentage;
     final skillCompletion = assessmentProvider.overallSkillCompletionPercentage;
 
-    // Dynamic readiness score calculation
-    final overallReadiness = ((resumeCompletion * 0.4) + (skillCompletion * 0.3) + (80 * 0.3)).round();
-
     return Scaffold(
+      backgroundColor: const Color(0xFFF7F5F0),
       appBar: AppBar(
         toolbarHeight: 74,
         titleSpacing: 20,
+        backgroundColor: const Color(0xFFF7F5F0),
         title: Row(
           children: [
-            Container(
-              padding: const EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF6366F1), Color(0xFF10B981)],
-                ),
-              ),
-              child: const CircleAvatar(
-                radius: 22,
-                backgroundColor: Color(0xFFEEF2FF),
-                child: Text(
-                  'A',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF4F46E5),
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 14),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Good morning, Aavani!',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    const Text('✨', style: TextStyle(fontSize: 14)),
-                  ],
-                ),
-                Text(
-                  "Let's move your career forward.",
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontSize: 12,
-                    color: const Color(0xFF64748B),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 16),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF1F5F9),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: IconButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Notifications: 2 new high-matching Flutter jobs posted!'),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              },
-              icon: Stack(
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.notifications_outlined, size: 24, color: Color(0xFF0F172A)),
-                  Positioned(
-                    right: 2,
-                    top: 2,
-                    child: Container(
-                      width: 8,
-                      height: 8,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFF43F5E),
-                        shape: BoxShape.circle,
+                  Row(
+                    children: [
+                      Text(
+                        'Good morning,',
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 17,
+                          color: const Color(0xFF78716C),
+                        ),
                       ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Aavani',
+                        style: theme.textTheme.displayLarge?.copyWith(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF1C1917),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      const Text('✨', style: TextStyle(fontSize: 16)),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  const Text(
+                    "Keep building the career you want.",
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      color: Color(0xFF78716C),
                     ),
                   ),
                 ],
               ),
             ),
+          ],
+        ),
+        actions: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFFE7E5E4)),
+            ),
+            child: const Icon(Icons.notifications_outlined, size: 20, color: Color(0xFF1C1917)),
           ),
+          const SizedBox(width: 10),
+          CircleAvatar(
+            radius: 18,
+            backgroundColor: const Color(0xFFFED7AA),
+            child: const Text(
+              'A',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF9A3412),
+                fontSize: 14,
+              ),
+            ),
+          ),
+          const SizedBox(width: 20),
         ],
       ),
       body: RefreshIndicator(
@@ -130,37 +112,35 @@ class HomeScreen extends StatelessWidget {
           await bookingProvider.loadBookings();
         },
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Career Progress Card
               CareerProgressCard(
-                overallPercentage: overallReadiness,
+                overallPercentage: 84,
                 resumePercentage: resumeCompletion,
                 skillsPercentage: skillCompletion,
                 profilePercentage: 80,
                 mentorStatus: upcomingSession != null ? 'Scheduled' : 'None',
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 16),
 
-              // Fun Streak Banner
+              // 5-Day Career Growth Streak Banner (Matching reference)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFFFF7ED), Color(0xFFFEF3C7)],
-                  ),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFFDE68A)),
+                  border: Border.all(color: const Color(0xFFE7E5E4), width: 1.2),
                 ),
                 child: Row(
                   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFF59E0B),
-                        shape: BoxShape.circle,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFEF3C7),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Text('🔥', style: TextStyle(fontSize: 16)),
                     ),
@@ -174,43 +154,49 @@ class HomeScreen extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 13,
-                              color: Color(0xFF78350F),
+                              color: Color(0xFF1C1917),
                             ),
                           ),
-                          Text(
-                            'Complete today\'s assessment to earn +150 Career XP.',
+                          const SizedBox(height: 2),
+                          const Text(
+                            'Complete today\'s assessment to earn +150 XP.',
                             style: TextStyle(
-                              fontSize: 11.5,
-                              color: const Color(0xFF92400E).withValues(alpha: 0.9),
+                              fontSize: 11,
+                              color: Color(0xFF78716C),
                             ),
                           ),
                         ],
                       ),
                     ),
+                    const Icon(Icons.chevron_right, color: Color(0xFFA8A29E), size: 18),
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
 
               // Quick Actions
-              Text(
+              const Text(
                 'Quick Actions',
-                style: theme.textTheme.titleLarge?.copyWith(fontSize: 18),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1C1917),
+                ),
               ),
               const SizedBox(height: 12),
               GridView.count(
                 crossAxisCount: 2,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 1.35,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 1.8,
                 children: [
                   QuickActionCard(
                     title: 'Build Resume',
-                    subtitle: 'Create or improve your professional resume',
+                    subtitle: 'Create or improve your resume',
                     icon: Icons.description_outlined,
-                    iconColor: const Color(0xFF3B82F6),
+                    iconColor: const Color(0xFF2563EB),
                     onTap: () {
                       Navigator.pushNamed(context, AppRoutes.resumeBuilder);
                     },
@@ -218,8 +204,8 @@ class HomeScreen extends StatelessWidget {
                   QuickActionCard(
                     title: 'Assess Skills',
                     subtitle: 'Test your technical & professional skills',
-                    icon: Icons.quiz_outlined,
-                    iconColor: const Color(0xFF10B981),
+                    icon: Icons.bolt_outlined,
+                    iconColor: const Color(0xFF059669),
                     onTap: () {
                       if (onNavigateTab != null) {
                         onNavigateTab!(2); // Switch tab to Assessment
@@ -230,7 +216,7 @@ class HomeScreen extends StatelessWidget {
                     title: 'Explore Jobs',
                     subtitle: 'Find jobs matching your skills',
                     icon: Icons.work_outline,
-                    iconColor: const Color(0xFFF59E0B),
+                    iconColor: const Color(0xFFD97706),
                     onTap: () {
                       if (onNavigateTab != null) {
                         onNavigateTab!(1); // Switch tab to Jobs
@@ -240,8 +226,8 @@ class HomeScreen extends StatelessWidget {
                   QuickActionCard(
                     title: 'Find a Mentor',
                     subtitle: 'Connect with experienced tech leaders',
-                    icon: Icons.people_outline,
-                    iconColor: const Color(0xFF8B5CF6),
+                    icon: Icons.person_outline,
+                    iconColor: const Color(0xFF7C3AED),
                     onTap: () {
                       if (onNavigateTab != null) {
                         onNavigateTab!(3); // Switch tab to Mentors
@@ -250,210 +236,157 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
 
               // Upcoming Mentor Session Card
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Upcoming Mentor Session',
-                    style: theme.textTheme.titleLarge?.copyWith(fontSize: 18),
-                  ),
-                  if (upcomingSession != null)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFECFDF5),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Row(
-                        children: [
-                          Icon(Icons.circle, color: Color(0xFF10B981), size: 8),
-                          SizedBox(width: 5),
-                          Text(
-                            'CONFIRMED',
-                            style: TextStyle(
-                              color: Color(0xFF047857),
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1C1917),
                     ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      if (onNavigateTab != null) {
+                        onNavigateTab!(3);
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: const Text('View All >', style: TextStyle(fontSize: 12, color: Color(0xFF78716C))),
+                  ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
               if (upcomingSession != null)
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(18),
-                    child: Column(
-                      children: [
-                        Row(
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: const Color(0xFFE7E5E4), width: 1.2),
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(upcomingSession.mentorAvatar),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CircleAvatar(
-                              radius: 26,
-                              backgroundImage: NetworkImage(upcomingSession.mentorAvatar),
-                            ),
-                            const SizedBox(width: 14),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    upcomingSession.mentorName,
-                                    style: theme.textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  Text(
-                                    upcomingSession.mentorRole,
-                                    style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12.5),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
+                            Text(
+                              upcomingSession.mentorName,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13.5,
+                                color: Color(0xFF1C1917),
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFEEF2FF),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                upcomingSession.sessionType.title,
-                                style: const TextStyle(
-                                  color: Color(0xFF4F46E5),
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                            Text(
+                              upcomingSession.mentorRole,
+                              style: const TextStyle(fontSize: 11, color: Color(0xFF78716C)),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              '${DateFormat('EEE, MMM d').format(upcomingSession.date)}  •  ${upcomingSession.timeSlot}',
+                              style: const TextStyle(fontSize: 10.5, color: Color(0xFF059669), fontWeight: FontWeight.w600),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
-                        const Divider(height: 1),
-                        const SizedBox(height: 14),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(Icons.calendar_today, size: 15, color: Color(0xFF64748B)),
-                                const SizedBox(width: 6),
-                                Text(
-                                  DateFormat('EEE, MMM d').format(upcomingSession.date),
-                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                                ),
-                                const SizedBox(width: 14),
-                                const Icon(Icons.access_time, size: 15, color: Color(0xFF64748B)),
-                                const SizedBox(width: 6),
-                                Text(
-                                  upcomingSession.timeSlot,
-                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                                ),
-                              ],
-                            ),
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Connecting to live virtual session lounge...'),
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF4F46E5),
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                              ),
-                              icon: const Icon(Icons.video_call, size: 18),
-                              label: const Text('Join Lounge'),
-                            ),
-                          ],
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Connecting to live virtual session...')),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF18181B),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         ),
-                      ],
-                    ),
+                        child: const Text('Join Lounge', style: TextStyle(fontSize: 11.5)),
+                      ),
+                    ],
                   ),
                 )
               else
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFF1F5F9),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.event_available, color: Color(0xFF6366F1), size: 26),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: const Color(0xFFE7E5E4), width: 1.2),
+                  ),
+                  child: Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 18,
+                        backgroundColor: Color(0xFFF5F5F4),
+                        child: Icon(Icons.person_outline, color: Color(0xFF78716C), size: 18),
+                      ),
+                      const SizedBox(width: 12),
+                      const Expanded(
+                        child: Text(
+                          'No upcoming sessions booked.',
+                          style: TextStyle(fontSize: 12, color: Color(0xFF78716C)),
                         ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'No upcoming sessions',
-                                style: theme.textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                'Book 1-on-1 mentorship with Google & Microsoft engineers.',
-                                style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12),
-                              ),
-                            ],
-                          ),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          if (onNavigateTab != null) onNavigateTab!(3);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                         ),
-                        const SizedBox(width: 8),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (onNavigateTab != null) {
-                              onNavigateTab!(3); // Mentors
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF6366F1),
-                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                          ),
-                          child: const Text('Book Mentor'),
-                        ),
-                      ],
-                    ),
+                        child: const Text('Book Mentor', style: TextStyle(fontSize: 11.5)),
+                      ),
+                    ],
                   ),
                 ),
-              const SizedBox(height: 26),
+              const SizedBox(height: 20),
 
-              // Recommended Jobs Header
+              // Recommended Jobs
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Recommended Jobs',
-                    style: theme.textTheme.titleLarge?.copyWith(fontSize: 18),
+                  const Text(
+                    'Recommended for you',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1C1917),
+                    ),
                   ),
-                  TextButton.icon(
+                  TextButton(
                     onPressed: () {
-                      if (onNavigateTab != null) {
-                        onNavigateTab!(1); // Jobs
-                      }
+                      if (onNavigateTab != null) onNavigateTab!(1);
                     },
-                    icon: const Text('View All Jobs', style: TextStyle(fontWeight: FontWeight.bold)),
-                    label: const Icon(Icons.arrow_forward, size: 16),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: const Text('View All >', style: TextStyle(fontSize: 12, color: Color(0xFF78716C))),
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
 
-              // Job Cards
+              // Job Cards list
               ...jobProvider.jobs.take(3).map((job) {
                 return JobCard(
                   job: job,
@@ -466,7 +399,7 @@ class HomeScreen extends StatelessWidget {
                 );
               }),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
             ],
           ),
         ),

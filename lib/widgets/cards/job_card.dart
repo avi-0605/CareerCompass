@@ -15,19 +15,17 @@ class JobCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
+      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE7E5E4), width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.black.withValues(alpha: 0.015),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -35,167 +33,137 @@ class JobCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding: const EdgeInsets.all(18),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header: Logo, Title, Company, Bookmark
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Company Logo Avatar Box
                     Container(
-                      width: 52,
-                      height: 52,
+                      width: 44,
+                      height: 44,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFF1F5F9), Color(0xFFE2E8F0)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: const Color(0xFFCBD5E1)),
+                        color: _getCompanyBgColor(job.company),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      clipBehavior: Clip.antiAlias,
-                      child: Image.network(
-                        job.companyLogoUrl,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          color: const Color(0xFF1E1B4B),
-                          child: Center(
-                            child: Text(
-                              job.company.substring(0, 1),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                              ),
-                            ),
+                      child: Center(
+                        child: Text(
+                          job.company.substring(0, 1),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 14),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             job.title,
-                            style: theme.textTheme.titleMedium?.copyWith(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              letterSpacing: -0.2,
+                              fontSize: 14.5,
+                              color: Color(0xFF1C1917),
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Text(
-                                job.company,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF4F46E5),
-                                  fontSize: 13,
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              const Text('•', style: TextStyle(color: Color(0xFFCBD5E1))),
-                              const SizedBox(width: 6),
-                              Expanded(
-                                child: Text(
-                                  job.location,
-                                  style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12.5),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
+                          const SizedBox(height: 3),
+                          Text(
+                            '${job.company}  •  ${job.location}',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFF78716C),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    IconButton(
-                      onPressed: onBookmarkToggle,
-                      icon: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: job.isBookmarked
-                              ? const Color(0xFFEEF2FF)
-                              : const Color(0xFFF8FAFC),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: job.isBookmarked
-                                ? const Color(0xFF6366F1)
-                                : const Color(0xFFE2E8F0),
-                          ),
-                        ),
-                        child: Icon(
-                          job.isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                          size: 18,
-                          color: job.isBookmarked
-                              ? const Color(0xFF4F46E5)
-                              : const Color(0xFF94A3B8),
-                        ),
-                      ),
-                      visualDensity: VisualDensity.compact,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 14),
-
-                // Badges: Work Type, Salary, Experience
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    _buildPillTag(
-                      context,
-                      label: job.workType == 'Remote'
-                          ? '🌐 ${job.workType}'
-                          : job.workType == 'Hybrid'
-                              ? '⚡ ${job.workType}'
-                              : '🏢 ${job.workType}',
-                      color: const Color(0xFFEEF2FF),
-                      textColor: const Color(0xFF4F46E5),
-                    ),
-                    _buildPillTag(
-                      context,
-                      label: '💰 ${job.salary}',
-                      color: const Color(0xFFECFDF5),
-                      textColor: const Color(0xFF047857),
-                    ),
-                    _buildPillTag(
-                      context,
-                      label: '💼 ${job.experience}',
-                      color: const Color(0xFFF8FAFC),
-                      textColor: const Color(0xFF475569),
+                    const Icon(
+                      Icons.chevron_right,
+                      size: 20,
+                      color: Color(0xFFA8A29E),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
 
-                // Skills preview chips
+                // Badges: Salary Tag (Green pill) & Experience
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFECFDF5),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.payments_outlined, size: 13, color: Color(0xFF059669)),
+                          const SizedBox(width: 4),
+                          Text(
+                            job.salary,
+                            style: const TextStyle(
+                              color: Color(0xFF059669),
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF5F5F4),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.work_outline, size: 13, color: Color(0xFF78716C)),
+                          const SizedBox(width: 4),
+                          Text(
+                            job.experience,
+                            style: const TextStyle(
+                              color: Color(0xFF78716C),
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+
+                // Skills chips
                 if (job.skills.isNotEmpty)
                   Wrap(
                     spacing: 6,
                     runSpacing: 6,
                     children: job.skills.take(3).map((skill) {
                       return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF1F5F9),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(
                           skill,
                           style: const TextStyle(
                             fontSize: 11,
-                            color: Color(0xFF334155),
-                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF475569),
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       );
@@ -209,26 +177,20 @@ class JobCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPillTag(
-    BuildContext context, {
-    required String label,
-    required Color color,
-    required Color textColor,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: textColor,
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
+  Color _getCompanyBgColor(String company) {
+    switch (company.toLowerCase()) {
+      case 'google':
+        return const Color(0xFFEA4335);
+      case 'swiggy':
+        return const Color(0xFFFC8019);
+      case 'razorpay':
+        return const Color(0xFF0C2340);
+      case 'cred':
+        return const Color(0xFF18181B);
+      case 'zomato':
+        return const Color(0xFFE23744);
+      default:
+        return const Color(0xFF18181B);
+    }
   }
 }

@@ -13,156 +13,91 @@ class AssessmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
+      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE7E5E4), width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.black.withValues(alpha: 0.015),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Row(
-          children: [
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFFEEF2FF), Color(0xFFE0E7FF)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFFC7D2FE)),
-              ),
-              child: const Icon(
-                Icons.quiz_outlined,
-                color: Color(0xFF4F46E5),
-                size: 28,
-              ),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          assessment.title,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFEF3C7),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: const Text(
-                          '+150 XP',
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFB45309),
-                          ),
-                        ),
-                      ),
-                    ],
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onStart,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                // Category Icon Badge Box
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: _getCategoryColor(assessment.title),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Text(
-                        '${assessment.questions.length} Qs',
-                        style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12),
-                      ),
-                      const SizedBox(width: 6),
-                      const Text('•', style: TextStyle(color: Color(0xFFCBD5E1))),
-                      const SizedBox(width: 6),
-                      Text(
-                        assessment.difficulty,
-                        style: TextStyle(
-                          color: _getDifficultyColor(assessment.difficulty),
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      const Text('•', style: TextStyle(color: Color(0xFFCBD5E1))),
-                      const SizedBox(width: 6),
-                      Text(
-                        '⏱️ ${assessment.estimatedTimeMinutes} min',
-                        style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                  if (assessment.isCompleted) ...[
-                    const SizedBox(height: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFECFDF5),
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(color: const Color(0xFFA7F3D0)),
-                      ),
-                      child: Text(
-                        '🏆 Score: ${assessment.percentage?.toStringAsFixed(0)}% (${assessment.performanceLevel.label})',
-                        style: const TextStyle(
-                          color: Color(0xFF047857),
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  child: Center(
+                    child: Text(
+                      assessment.title.substring(0, 1),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
-                  ],
-                ],
-              ),
-            ),
-            const SizedBox(width: 10),
-            ElevatedButton(
-              onPressed: onStart,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: assessment.isCompleted
-                    ? const Color(0xFF4F46E5)
-                    : const Color(0xFF0F172A),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-              ),
-              child: Text(assessment.isCompleted ? 'Retake' : 'Start'),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        assessment.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.5,
+                          color: Color(0xFF1C1917),
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        '${assessment.questions.length} qs  •  ${assessment.difficulty}  •  ${assessment.estimatedTimeMinutes} min',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF78716C),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(
+                  Icons.chevron_right,
+                  size: 20,
+                  color: Color(0xFFA8A29E),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Color _getDifficultyColor(String difficulty) {
-    switch (difficulty.toLowerCase()) {
-      case 'beginner':
-        return const Color(0xFF10B981);
-      case 'intermediate':
-        return const Color(0xFF3B82F6);
-      case 'advanced':
-        return const Color(0xFFF59E0B);
-      default:
-        return const Color(0xFF64748B);
-    }
+  Color _getCategoryColor(String title) {
+    if (title.contains('Flutter')) return const Color(0xFF02569B);
+    if (title.contains('Dart')) return const Color(0xFF0175C2);
+    if (title.contains('Web')) return const Color(0xFF38BDF8);
+    if (title.contains('Data Structures')) return const Color(0xFFD97706);
+    if (title.contains('UI/UX')) return const Color(0xFF7C3AED);
+    return const Color(0xFF18181B);
   }
 }
