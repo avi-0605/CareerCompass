@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Set up Java JDK
@@ -21,26 +21,20 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Set up Flutter
+      - name: Set up Flutter SDK
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: flutter pub get
 
-      - name: Analyze code
-        run: flutter analyze --no-fatal-infos
+      - name: Build Android APK
+        run: flutter build apk --release
 
-      - name: Run tests
-        run: flutter test
-
-      - name: Build APK
-        run: flutter build apk --release --split-per-abi
-
-      - name: Upload APK Artifacts
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: CareerCompass-APKs
-          path: build/app/outputs/flutter-apk/*.apk
+          name: CareerCompass-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk

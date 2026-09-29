@@ -15,23 +15,40 @@ class AssessmentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Card(
+    return Container(
       margin: const EdgeInsets.only(bottom: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(18),
         child: Row(
           children: [
             Container(
-              width: 52,
-              height: 52,
+              width: 56,
+              height: 56,
               decoration: BoxDecoration(
-                color: const Color(0xFFEFF6FF),
-                borderRadius: BorderRadius.circular(12),
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFEEF2FF), Color(0xFFE0E7FF)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFC7D2FE)),
               ),
               child: const Icon(
                 Icons.quiz_outlined,
-                color: Color(0xFF2563EB),
-                size: 26,
+                color: Color(0xFF4F46E5),
+                size: 28,
               ),
             ),
             const SizedBox(width: 14),
@@ -39,51 +56,74 @@ class AssessmentCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    assessment.title,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          assessment.title,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFEF3C7),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Text(
+                          '+150 XP',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFB45309),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
                       Text(
-                        '${assessment.questions.length} Questions',
+                        '${assessment.questions.length} Qs',
                         style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12),
                       ),
-                      const SizedBox(width: 8),
-                      const Text('•', style: TextStyle(color: Color(0xFF94A3B8))),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
+                      const Text('•', style: TextStyle(color: Color(0xFFCBD5E1))),
+                      const SizedBox(width: 6),
                       Text(
                         assessment.difficulty,
                         style: TextStyle(
                           color: _getDifficultyColor(assessment.difficulty),
                           fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      const Text('•', style: TextStyle(color: Color(0xFF94A3B8))),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
+                      const Text('•', style: TextStyle(color: Color(0xFFCBD5E1))),
+                      const SizedBox(width: 6),
                       Text(
-                        '${assessment.estimatedTimeMinutes} min',
+                        '⏱️ ${assessment.estimatedTimeMinutes} min',
                         style: theme.textTheme.bodyMedium?.copyWith(fontSize: 12),
                       ),
                     ],
                   ),
                   if (assessment.isCompleted) ...[
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 8),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
                       decoration: BoxDecoration(
                         color: const Color(0xFFECFDF5),
                         borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: const Color(0xFFA7F3D0)),
                       ),
                       child: Text(
-                        'Completed — ${assessment.percentage?.toStringAsFixed(0)}% Score',
+                        '🏆 Score: ${assessment.percentage?.toStringAsFixed(0)}% (${assessment.performanceLevel.label})',
                         style: const TextStyle(
-                          color: Color(0xFF059669),
+                          color: Color(0xFF047857),
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
                         ),
@@ -93,14 +133,17 @@ class AssessmentCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 10),
             ElevatedButton(
               onPressed: onStart,
               style: ElevatedButton.styleFrom(
                 backgroundColor: assessment.isCompleted
-                    ? const Color(0xFF2563EB)
-                    : const Color(0xFF1E293B),
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    ? const Color(0xFF4F46E5)
+                    : const Color(0xFF0F172A),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               child: Text(assessment.isCompleted ? 'Retake' : 'Start'),
             ),
