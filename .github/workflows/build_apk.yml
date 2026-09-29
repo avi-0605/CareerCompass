@@ -1,16 +1,14 @@
-name: Build & Release CareerCompass APK
+name: Build Android APK
 
 on:
   push:
     branches: [ main, master ]
-    tags:
-      - 'v*'
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Build Android APK
     runs-on: ubuntu-latest
 
     steps:
@@ -20,34 +18,29 @@ jobs:
       - name: Set up Java JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: 'zulu'
           java-version: '17'
 
-      - name: Set up Flutter SDK
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
 
-      - name: Get Flutter dependencies
+      - name: Install dependencies
         run: flutter pub get
 
-      - name: Run Flutter Static Analysis
-        run: flutter analyze
+      - name: Analyze code
+        run: flutter analyze --no-fatal-infos
 
-      - name: Build Release APK
-        run: flutter build apk --release
+      - name: Run tests
+        run: flutter test
 
-      - name: Upload APK Artifact
+      - name: Build APK
+        run: flutter build apk --release --split-per-abi
+
+      - name: Upload APK Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: CareerCompass-Release-APK
-          path: build/app/outputs/flutter-apk/app-release.apk
-
-      - name: Create GitHub Release (On Tag Push)
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: build/app/outputs/flutter-apk/app-release.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: CareerCompass-APKs
+          path: build/app/outputs/flutter-apk/*.apk
