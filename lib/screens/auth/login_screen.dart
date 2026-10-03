@@ -288,7 +288,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 12),
+
+                  // Quick Demo Guest Sign-In Button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 44,
+                    child: TextButton.icon(
+                      onPressed: authProvider.isLoading ? null : () async {
+                        final auth = Provider.of<AuthProvider>(context, listen: false);
+                        await auth.signInAsGuest();
+                        if (context.mounted && Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        }
+                      },
+                      icon: const Icon(Icons.bolt, color: Color(0xFFF59E0B), size: 18),
+                      label: const Text(
+                        'Quick Demo Sign In',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: Color(0xFF18181B),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
 
                   // Bottom Sign Up Link
                   Row(

@@ -79,6 +79,24 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> signInAsGuest() async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      _currentUser = await _repository.signInAsGuest();
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _error = e.toString().replaceAll('Exception: ', '');
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
   Future<void> signOut() async {
     await _repository.signOut();
     _currentUser = null;
