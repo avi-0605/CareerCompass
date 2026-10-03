@@ -20,7 +20,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final resumeProvider = Provider.of<ResumeProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
     final resume = resumeProvider.resume;
+    final currentUser = authProvider.currentUser;
+
+    final name = currentUser?.name.isNotEmpty == true
+        ? currentUser!.name
+        : (resume?.name.isNotEmpty == true ? resume!.name : 'User');
+    final email = currentUser?.email.isNotEmpty == true
+        ? currentUser!.email
+        : (resume?.email.isNotEmpty == true ? resume!.email : 'user@careercompass.app');
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F5F0),
@@ -51,7 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   radius: 36,
                   backgroundColor: const Color(0xFFFED7AA),
                   child: Text(
-                    resume?.name.isNotEmpty == true ? resume!.name.substring(0, 1) : 'A',
+                    name.isNotEmpty == true ? name.substring(0, 1).toUpperCase() : 'U',
                     style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFF9A3412)),
                   ),
                 ),
@@ -61,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        resume?.name ?? 'Aavani Sharma',
+                        name,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -74,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           const Icon(Icons.email_outlined, size: 13, color: Color(0xFF78716C)),
                           const SizedBox(width: 4),
                           Text(
-                            resume?.email ?? 'aavani.sharma@example.com',
+                            email,
                             style: const TextStyle(fontSize: 12, color: Color(0xFF78716C)),
                           ),
                         ],

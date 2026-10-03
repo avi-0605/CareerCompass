@@ -7,6 +7,36 @@ class AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
+  // Helper method for clean human-readable Firebase Auth error messages
+  String _mapFirebaseAuthError(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'invalid-credential':
+      case 'wrong-password':
+      case 'user-not-found':
+        return 'Invalid email or password. If you do not have an account, please click "Sign Up" below.';
+      case 'email-already-in-use':
+        return 'An account already exists with this email address. Please log in instead.';
+      case 'invalid-email':
+        return 'The email address format is invalid. Please enter a valid email.';
+      case 'weak-password':
+        return 'The password is too weak. Please use at least 6 characters.';
+      case 'user-disabled':
+        return 'This account has been disabled. Please contact support.';
+      case 'too-many-requests':
+        return 'Too many failed login attempts. Please wait a moment and try again.';
+      case 'operation-not-allowed':
+        return 'This sign-in provider is not enabled in Firebase Console.';
+      case 'popup-closed-by-user':
+        return 'Google Sign-In popup was closed before completing.';
+      case 'unauthorized-domain':
+        return 'Domain is not authorized for OAuth in Firebase Console Settings.';
+      case 'network-request-failed':
+        return 'Network connection error. Please check your internet connection.';
+      default:
+        return e.message ?? 'Authentication error (${e.code}).';
+    }
+  }
+
   // Current User Stream directly listening to Firebase Auth state
   Stream<AppUser?> get authStateChanges {
     return _firebaseAuth.authStateChanges().map((User? user) {
@@ -45,10 +75,10 @@ class AuthRepository {
       throw Exception('Failed to create account.');
     } on FirebaseAuthException catch (e) {
       debugPrint('Firebase SignUp Error: ${e.code} - ${e.message}');
-      throw Exception(e.message ?? 'Sign up failed (${e.code}).');
+      throw Exception(_mapFirebaseAuthError(e));
     } catch (e) {
       debugPrint('SignUp Error: $e');
-      throw Exception('Sign up failed: ${e.toString()}');
+      throw Exception('Sign up failed: ${e.toString().replaceAll('Exception: ', '')}');
     }
   }
 
@@ -75,10 +105,10 @@ class AuthRepository {
       throw Exception('Login failed.');
     } on FirebaseAuthException catch (e) {
       debugPrint('Firebase Login Error: ${e.code} - ${e.message}');
-      throw Exception(e.message ?? 'Authentication failed (${e.code}).');
+      throw Exception(_mapFirebaseAuthError(e));
     } catch (e) {
       debugPrint('Login Error: $e');
-      throw Exception('Login failed: ${e.toString()}');
+      throw Exception('Login failed: ${e.toString().replaceAll('Exception: ', '')}');
     }
   }
 
@@ -105,17 +135,10 @@ class AuthRepository {
         throw Exception('Google Sign In returned no user from Firebase.');
       } on FirebaseAuthException catch (e) {
         debugPrint('Firebase Web Auth Error: ${e.code} - ${e.message}');
-        if (e.code == 'popup-closed-by-user') {
-          throw Exception('Sign in popup was closed before completing.');
-        } else if (e.code == 'unauthorized-domain') {
-          throw Exception('Domain is not authorized in Firebase Console (Check authorized domains).');
-        } else if (e.code == 'operation-not-allowed') {
-          throw Exception('Google sign-in is not enabled in Firebase Console.');
-        }
-        throw Exception(e.message ?? 'Google Sign In failed (${e.code}).');
+        throw Exception(_mapFirebaseAuthError(e));
       } catch (e) {
         debugPrint('Google Web Sign-In Exception: $e');
-        throw Exception('Google Sign In failed: ${e.toString()}');
+        throw Exception('Google Sign In failed: ${e.toString().replaceAll('Exception: ', '')}');
       }
     } else {
       try {
@@ -145,7 +168,7 @@ class AuthRepository {
         throw Exception('Google Sign In failed on device.');
       } on FirebaseAuthException catch (e) {
         debugPrint('Firebase Mobile Auth Error: ${e.code} - ${e.message}');
-        throw Exception(e.message ?? 'Google Sign In failed (${e.code}).');
+        throw Exception(_mapFirebaseAuthError(e));
       } catch (e) {
         debugPrint('Google Mobile Sign-In Exception: $e');
         throw Exception(e.toString().replaceAll('Exception: ', ''));
