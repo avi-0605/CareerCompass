@@ -44,7 +44,9 @@ class _SignupScreenState extends State<SignupScreen> {
             backgroundColor: Color(0xFF059669),
           ),
         );
-        Navigator.pushReplacementNamed(context, AppRoutes.mainNav);
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
       } else if (mounted && authProvider.error != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -67,7 +69,9 @@ class _SignupScreenState extends State<SignupScreen> {
           backgroundColor: Color(0xFF059669),
         ),
       );
-      Navigator.pushReplacementNamed(context, AppRoutes.mainNav);
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -293,7 +297,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg',
                             width: 20,
                             height: 20,
-                            errorBuilder: (_, __, ___) => const Icon(Icons.g_mobiledata, color: Color(0xFF4285F4), size: 24),
+                            errorBuilder: (context, error, stackTrace) => const Icon(Icons.g_mobiledata, color: Color(0xFF4285F4), size: 24),
                           ),
                           const SizedBox(width: 10),
                           const Text(

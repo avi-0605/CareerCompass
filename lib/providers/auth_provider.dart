@@ -10,13 +10,10 @@ class AuthProvider extends ChangeNotifier {
   String? _error;
 
   AuthProvider(this._repository) {
-    // Initial guest user state for easy testing
-    _currentUser = AppUser(
-      uid: 'user_default',
-      name: 'Aavani Sharma',
-      email: 'aavani.sharma@example.com',
-      provider: 'email',
-    );
+    _repository.authStateChanges.listen((user) {
+      _currentUser = user;
+      notifyListeners();
+    });
   }
 
   AppUser? get currentUser => _currentUser;

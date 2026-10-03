@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "751936654164",
-    "project_id": "careercompass-4378c",
-    "storage_bucket": "careercompass-4378c.firebasestorage.app"
+    "project_number": "147832218500",
+    "project_id": "careercompass-d1c69",
+    "storage_bucket": "careercompass-d1c69.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:751936654164:android:a28288bc9b51b735ba96c1",
+        "mobilesdk_app_id": "1:147832218500:android:9a5fc127137278e2e3b3d1",
         "android_client_info": {
           "package_name": "com.careercompass.career_compass"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAiZiR4keJ2nsK76soQX1uwFvgRWledDys"
+          "current_key": "AIzaSyCKSEh2leYB4siuy5eJm66xYINUSiEAfpg"
         }
       ],
       "services": {

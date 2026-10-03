@@ -11,6 +11,7 @@ import '../repositories/assessment_repository.dart';
 import '../repositories/mentor_repository.dart';
 import '../repositories/booking_repository.dart';
 
+import '../screens/auth/auth_gate.dart';
 import '../providers/auth_provider.dart';
 import '../providers/resume_provider.dart';
 import '../providers/job_provider.dart';
@@ -48,7 +49,7 @@ class CareerCompassApp extends StatelessWidget {
         title: 'CareerCompass',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
-        initialRoute: AppRoutes.login,
+        home: const AuthGate(),
         onGenerateRoute: AppRoutes.generateRoute,
       ),
     );

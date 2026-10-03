@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../screens/main_navigation_screen.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/signup_screen.dart';
+import '../screens/auth/forgot_password_screen.dart';
 import '../screens/resume/resume_builder_screen.dart';
 import '../screens/resume/resume_preview_screen.dart';
 import '../screens/jobs/job_detail_screen.dart';
@@ -17,6 +18,7 @@ class AppRoutes {
   static const String mainNav = '/';
   static const String login = '/login';
   static const String signup = '/signup';
+  static const String forgotPassword = '/forgot-password';
   static const String resumeBuilder = '/resume-builder';
   static const String resumePreview = '/resume-preview';
   static const String jobDetail = '/job-detail';
@@ -38,6 +40,9 @@ class AppRoutes {
 
       case signup:
         return MaterialPageRoute(builder: (_) => const SignupScreen());
+
+      case forgotPassword:
+        return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
 
       case resumeBuilder:
         return MaterialPageRoute(builder: (_) => const ResumeBuilderScreen());

@@ -33,7 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (success && mounted) {
-        Navigator.pushReplacementNamed(context, AppRoutes.mainNav);
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
       } else if (mounted && authProvider.error != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -56,7 +58,9 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Color(0xFF059669),
         ),
       );
-      Navigator.pushReplacementNamed(context, AppRoutes.mainNav);
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -185,9 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Password reset link sent to your email.')),
-                              );
+                              Navigator.pushNamed(context, AppRoutes.forgotPassword);
                             },
                             child: const Text('Forgot Password?', style: TextStyle(fontSize: 12, color: Color(0xFF78716C))),
                           ),
@@ -263,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg',
                               width: 20,
                               height: 20,
-                              errorBuilder: (_, __, ___) => const Icon(Icons.g_mobiledata, color: Color(0xFF4285F4), size: 24),
+                              errorBuilder: (context, error, stackTrace) => const Icon(Icons.g_mobiledata, color: Color(0xFF4285F4), size: 24),
                             ),
                           ),
                           const SizedBox(width: 10),
