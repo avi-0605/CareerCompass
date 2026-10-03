@@ -72,6 +72,13 @@ class _SignupScreenState extends State<SignupScreen> {
       if (Navigator.canPop(context)) {
         Navigator.pop(context);
       }
+    } else if (mounted && authProvider.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(authProvider.error!),
+          backgroundColor: const Color(0xFFE11D48),
+        ),
+      );
     }
   }
 
