@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/resume_provider.dart';
+import '../../providers/auth_provider.dart';
 import '../../widgets/dialogs/confirmation_dialog.dart';
 import '../../app/routes.dart';
 
@@ -290,58 +291,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Settings Section
             const Text('Settings & Preferences', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF1C1917))),
             const SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFFE7E5E4), width: 1.2),
-              ),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: const Icon(Icons.edit_note, color: Color(0xFF1C1917)),
-                    title: const Text('Edit Resume & Profile', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600)),
-                    trailing: const Icon(Icons.chevron_right, color: Color(0xFFA8A29E)),
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.resumeBuilder),
-                  ),
-                  const Divider(height: 1, color: Color(0xFFF5F5F4)),
-                  SwitchListTile(
-                    secondary: const Icon(Icons.notifications_outlined, color: Color(0xFF059669)),
-                    title: const Text('Notifications', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600)),
-                    value: _notificationsEnabled,
-                    onChanged: (val) => setState(() => _notificationsEnabled = val),
-                  ),
-                  const Divider(height: 1, color: Color(0xFFF5F5F4)),
-                  SwitchListTile(
-                    secondary: const Icon(Icons.palette_outlined, color: Color(0xFFD97706)),
-                    title: const Text('Dark Mode', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600)),
-                    value: _darkMode,
-                    onChanged: (val) => setState(() => _darkMode = val),
-                  ),
-                  const Divider(height: 1, color: Color(0xFFF5F5F4)),
-                  ListTile(
-                    leading: const Icon(Icons.logout, color: Color(0xFFE11D48)),
-                    title: const Text('Logout', style: TextStyle(color: Color(0xFFE11D48), fontWeight: FontWeight.bold, fontSize: 13.5)),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => ConfirmationDialog(
-                          title: 'Logout of CareerCompass?',
-                          message: 'Are you sure you want to log out of your account?',
-                          confirmText: 'Logout',
-                          cancelText: 'Cancel',
-                          icon: Icons.logout,
-                          iconColor: const Color(0xFFE11D48),
-                          onConfirm: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Logged out successfully.')),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ],
+            Material(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFE7E5E4), width: 1.2),
+                ),
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.edit_note, color: Color(0xFF1C1917)),
+                      title: const Text('Edit Resume & Profile', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600)),
+                      trailing: const Icon(Icons.chevron_right, color: Color(0xFFA8A29E)),
+                      onTap: () => Navigator.pushNamed(context, AppRoutes.resumeBuilder),
+                    ),
+                    const Divider(height: 1, color: Color(0xFFF5F5F4)),
+                    SwitchListTile(
+                      secondary: const Icon(Icons.notifications_outlined, color: Color(0xFF059669)),
+                      title: const Text('Notifications', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600)),
+                      value: _notificationsEnabled,
+                      onChanged: (val) => setState(() => _notificationsEnabled = val),
+                    ),
+                    const Divider(height: 1, color: Color(0xFFF5F5F4)),
+                    SwitchListTile(
+                      secondary: const Icon(Icons.palette_outlined, color: Color(0xFFD97706)),
+                      title: const Text('Dark Mode', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600)),
+                      value: _darkMode,
+                      onChanged: (val) => setState(() => _darkMode = val),
+                    ),
+                    const Divider(height: 1, color: Color(0xFFF5F5F4)),
+                    ListTile(
+                      leading: const Icon(Icons.login_outlined, color: Color(0xFF2563EB)),
+                      title: const Text('Switch Account / Login', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600)),
+                      trailing: const Icon(Icons.chevron_right, color: Color(0xFFA8A29E)),
+                      onTap: () => Navigator.pushNamed(context, AppRoutes.login),
+                    ),
+                    const Divider(height: 1, color: Color(0xFFF5F5F4)),
+                    ListTile(
+                      leading: const Icon(Icons.logout, color: Color(0xFFE11D48)),
+                      title: const Text('Logout', style: TextStyle(color: Color(0xFFE11D48), fontWeight: FontWeight.bold, fontSize: 13.5)),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => ConfirmationDialog(
+                            title: 'Logout of CareerCompass?',
+                            message: 'Are you sure you want to log out of your account?',
+                            confirmText: 'Logout',
+                            cancelText: 'Cancel',
+                            icon: Icons.logout,
+                            iconColor: const Color(0xFFE11D48),
+                            onConfirm: () async {
+                              await Provider.of<AuthProvider>(context, listen: false).signOut();
+                              if (context.mounted) {
+                                Navigator.pushReplacementNamed(context, AppRoutes.login);
+                              }
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 24),

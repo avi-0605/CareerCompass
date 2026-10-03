@@ -4,12 +4,14 @@ import 'package:provider/provider.dart';
 import 'theme.dart';
 import 'routes.dart';
 
+import '../repositories/auth_repository.dart';
 import '../repositories/resume_repository.dart';
 import '../repositories/job_repository.dart';
 import '../repositories/assessment_repository.dart';
 import '../repositories/mentor_repository.dart';
 import '../repositories/booking_repository.dart';
 
+import '../providers/auth_provider.dart';
 import '../providers/resume_provider.dart';
 import '../providers/job_provider.dart';
 import '../providers/assessment_provider.dart';
@@ -23,6 +25,9 @@ class CareerCompassApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(AuthRepository()),
+        ),
         ChangeNotifierProvider(
           create: (_) => ResumeProvider(ResumeRepository()),
         ),

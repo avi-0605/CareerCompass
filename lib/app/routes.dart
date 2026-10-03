@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../screens/main_navigation_screen.dart';
+import '../screens/auth/login_screen.dart';
+import '../screens/auth/signup_screen.dart';
 import '../screens/resume/resume_builder_screen.dart';
 import '../screens/resume/resume_preview_screen.dart';
 import '../screens/jobs/job_detail_screen.dart';
@@ -13,6 +15,8 @@ import '../models/mentor.dart';
 
 class AppRoutes {
   static const String mainNav = '/';
+  static const String login = '/login';
+  static const String signup = '/signup';
   static const String resumeBuilder = '/resume-builder';
   static const String resumePreview = '/resume-preview';
   static const String jobDetail = '/job-detail';
@@ -28,6 +32,12 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (_) => MainNavigationScreen(initialIndex: initialIndex),
         );
+
+      case login:
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
+
+      case signup:
+        return MaterialPageRoute(builder: (_) => const SignupScreen());
 
       case resumeBuilder:
         return MaterialPageRoute(builder: (_) => const ResumeBuilderScreen());
