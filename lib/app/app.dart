@@ -48,7 +48,7 @@ class CareerCompassApp extends StatelessWidget {
         title: 'CareerCompass',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
-        initialRoute: AppRoutes.mainNav,
+        initialRoute: AppRoutes.login,
         onGenerateRoute: AppRoutes.generateRoute,
       ),
     );
